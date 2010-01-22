@@ -9,13 +9,12 @@ use Scalar::Util        ();
 use Catalyst::Exception ();
 use Digest              ();
 
-BEGIN {
-    __PACKAGE__->mk_accessors(qw/_config realm/);
-}
+__PACKAGE__->mk_accessors(qw/_config realm/);
 
 sub new {
     my ($class, $config, $app, $realm) = @_;
-    
+
+    # Note _config is horrible back compat hackery!
     my $self = { _config => $config };
     bless $self, $class;
     
@@ -127,7 +126,7 @@ provided against the user retrieved from the store.
 =head1 CONFIGURATION
 
     # example
-    __PACKAGE__->config->{'Plugin::Authentication'} = 
+    __PACKAGE__->config('Plugin::Authentication' => 
                 {  
                     default_realm => 'members',
                     realms => {

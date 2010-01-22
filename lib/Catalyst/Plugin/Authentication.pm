@@ -12,7 +12,7 @@ use Tie::RefHash;
 use Class::Inspector;
 use Catalyst::Authentication::Realm;
 
-our $VERSION = "0.10015";
+our $VERSION = "0.10016";
 
 sub set_authenticated {
     my ( $c, $user, $realmname ) = @_;
@@ -53,8 +53,8 @@ sub user {
 # change this to allow specification of a realm - to verify the user is part of that realm
 # in addition to verifying that they exist.
 sub user_exists {
-	my $c = shift;
-	return defined($c->_user) || defined($c->find_realm_for_persisted_user);
+    my $c = shift;
+    return defined($c->_user) || defined($c->find_realm_for_persisted_user);
 }
 
 # works like user_exists - except only returns true if user
@@ -227,7 +227,7 @@ sub _authentication_initialize {
     $app->mk_classdata( '_auth_realm_restore_order' => []);
 
     my $cfg = $app->config->{'Plugin::Authentication'};
-	my $realmshash;
+    my $realmshash;
     if (!defined($cfg)) {
         if (exists($app->config->{'authentication'})) {
             $cfg = $app->config->{'authentication'};
@@ -236,16 +236,16 @@ sub _authentication_initialize {
             $cfg = {};
         }
     } else {
-		# the realmshash contains the various configured realms.  By default this is
-		# the main $app->config->{'Plugin::Authentication'} hash - but if that is
-		# not defined, or there is a subkey {'realms'} then we use that.
-		$realmshash = $cfg;
-	}
+        # the realmshash contains the various configured realms.  By default this is
+        # the main $app->config->{'Plugin::Authentication'} hash - but if that is
+        # not defined, or there is a subkey {'realms'} then we use that.
+        $realmshash = $cfg;
+    }
 
-	## If we have a sub-key of {'realms'} then we use that for realm configuration
-	if (exists($cfg->{'realms'})) {
-		$realmshash = $cfg->{'realms'};
-	}
+    ## If we have a sub-key of {'realms'} then we use that for realm configuration
+    if (exists($cfg->{'realms'})) {
+        $realmshash = $cfg->{'realms'};
+    }
 
     # old default was to force use_session on.  This must remain for that
     # reason - but if use_session is already in the config, we respect its setting.
@@ -262,16 +262,16 @@ sub _authentication_initialize {
 
         foreach my $realm (sort keys %{$realmshash}) {
             if (ref($realmshash->{$realm}) eq 'HASH' &&
-				(exists($realmshash->{$realm}{credential}) || exists($realmshash->{$realm}{class}))) {
+                (exists($realmshash->{$realm}{credential}) || exists($realmshash->{$realm}{class}))) {
 
-	            $app->setup_auth_realm($realm, $realmshash->{$realm});
+                $app->setup_auth_realm($realm, $realmshash->{$realm});
 
-	            if (exists($realmshash->{$realm}{'user_restore_priority'})) {
-	                $auth_restore_order{$realm} = $realmshash->{$realm}{'user_restore_priority'};
-	            } else {
-	                $auth_restore_order{$realm} = $authcount++;
-	            }
-			}
+                if (exists($realmshash->{$realm}{'user_restore_priority'})) {
+                    $auth_restore_order{$realm} = $realmshash->{$realm}{'user_restore_priority'};
+                } else {
+                    $auth_restore_order{$realm} = $authcount++;
+                }
+            }
         }
 
         # if we have a 'default_realm' in the config hash and we don't already
@@ -308,7 +308,6 @@ sub _authentication_initialize {
             my $realmcfg = {
                 store => { class => $cfg->{'stores'}{$storename} },
             };
-            print STDERR "Foo, ok?\n";
             $app->setup_auth_realm($storename, $realmcfg);
         }
     }
@@ -635,19 +634,19 @@ This means that our application will begin like this:
                         },
                         store => {
                             class => 'Minimal',
-        	                users => {
-        	                    bob => {
-        	                        password => "s00p3r",                	
-        	                        editor => 'yes',
-        	                        roles => [qw/edit delete/],
-        	                    },
-        	                    william => {
-        	                        password => "s3cr3t",
-        	                        roles => [qw/comment/],
-        	                    }
-        	                }	
-        	            }
-        	        }
+                            users => {
+                                bob => {
+                                    password => "s00p3r",
+                                    editor => 'yes',
+                                    roles => [qw/edit delete/],
+                                },
+                                william => {
+                                    password => "s3cr3t",
+                                    roles => [qw/comment/],
+                                }
+                            }
+                        }
+                    }
                 }
     );
 
@@ -745,7 +744,7 @@ efficient to maintain a hash of users, so you move this data to a database.
 You can accomplish this simply by installing the L<DBIx::Class|Catalyst::Authentication::Store::DBIx::Class> Store and
 changing your config:
 
-    __PACKAGE__->config( 'Plugin::Authentication'} =>
+    __PACKAGE__->config( 'Plugin::Authentication' =>
                     {
                         default_realm => 'members',
                         members => {
@@ -756,10 +755,10 @@ changing your config:
                             },
                             store => {
                                 class => 'DBIx::Class',
-        	                    user_class => 'MyApp::Users',
-        	                    role_column => 'roles'	
-        	                }
-            	        }
+                                user_model => 'MyApp::Users',
+                                role_column => 'roles',
+                            }
+                        }
                     }
     );
 
@@ -782,21 +781,21 @@ new source. The rest of your application is completely unchanged.
                         },
                         store => {
                             class => 'DBIx::Class',
-    	                    user_class => 'MyApp::Users',
-    	                    role_column => 'roles'	
-    	                }
-        	        },
-        	        admins => {
-        	            credential => {
-        	                class => 'Password',
-        	                password_field => 'password',
+                            user_model => 'MyApp::Users',
+                            role_column => 'roles',
+                        }
+                    },
+                    admins => {
+                        credential => {
+                            class => 'Password',
+                            password_field => 'password',
                             password_type => 'clear'
-        	            },
-        	            store => {
-        	                class => '+MyApp::Authentication::Store::NetAuth',
-        	                authserver => '192.168.10.17'
-        	            }
-        	        }
+                        },
+                        store => {
+                            class => '+MyApp::Authentication::Store::NetAuth',
+                            authserver => '192.168.10.17'
+                        }
+                    }
                 }
     );
 
@@ -880,7 +879,8 @@ logged in right now and was retrieved from the realm provided.
 
 =head2 $c->logout( )
 
-Logs the user out. Deletes the currently logged in user from C<< $c->user >> and the session.
+Logs the user out. Deletes the currently logged in user from C<< $c->user >>
+and the session.  It does not delete the session.
 
 =head2 $c->find_user( $userinfo, $realm )
 
@@ -1028,7 +1028,7 @@ Until version 0.10008 of this module, you needed to put all the
 realms inside a "realms" key in the configuration.
 
     # example
-    __PACKAGE__->config( 'Plugin::Authentication'} =>
+    __PACKAGE__->config( 'Plugin::Authentication' =>
                 {
                     default_realm => 'members',
                     realms => {
@@ -1077,7 +1077,7 @@ This is set to C<< $c->config( 'Plugin::Authentication' => { store => # Store} )
 or by using a Store plugin:
 
     # load the Minimal authentication store.
-	use Catalyst qw/Authentication Authentication::Store::Minimal/;
+    use Catalyst qw/Authentication Authentication::Store::Minimal/;
 
 Sets the default store to
 L<Catalyst::Plugin::Authentication::Store::Minimal>.
@@ -1118,11 +1118,18 @@ kmx
 
 Nigel Metheringham
 
+Florian Ragwitz C<rafl@debian.org>
+
+Stephan Jauernick C<stephanj@cpan.org>
+
 =head1 COPYRIGHT & LICENSE
 
-        Copyright (c) 2005 the aforementioned authors. All rights
-        reserved. This program is free software; you can redistribute
-        it and/or modify it under the same terms as Perl itself.
+Copyright (c) 2005 - 2009
+the Catalyst::Plugin::Authentication L</AUTHORS>
+as listed above.
+
+This program is free software; you can redistribute
+it and/or modify it under the same terms as Perl itself.
 
 =cut
 

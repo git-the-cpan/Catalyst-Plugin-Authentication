@@ -3,11 +3,10 @@ package Catalyst::Authentication::User;
 use strict;
 use warnings;
 use base qw/Class::Accessor::Fast/;
+use Scalar::Util qw/refaddr/;
 
 ## auth_realm is the realm this user came from. 
-BEGIN {
-    __PACKAGE__->mk_accessors(qw/auth_realm store/);
-}
+__PACKAGE__->mk_accessors(qw/auth_realm store/);
 
 ## THIS IS NOT A COMPLETE CLASS! it is intended to provide base functionality only.  
 ## translation - it won't work if you try to use it directly.
@@ -45,7 +44,7 @@ sub supports {
 ## you most likely want to write this yourself.
 sub get {
     my ($self, $field) = @_;
-    
+
     my $object;
     if ($object = $self->get_object and $object->can($field)) {
         return $object->$field();
@@ -71,13 +70,17 @@ sub obj {
     return $self->get_object(@_);
 }
 
-## Backwards Compatibility
-## you probably want auth_realm, in fact.  but this does work for backwards compatibility.
-## store should be a read-write accessor - so it was moved to mk_accessors
-##sub store { 
-##    my ($self) = @_;
-##    return $self->auth_realm->{store};
-##}
+sub AUTOLOAD {
+    my $self = shift;
+    (my $method) = (our $AUTOLOAD =~ /([^:]+)$/);
+    return if $method eq "DESTROY";
+
+    my $obj = $self->obj;
+    # Don't bother unless we have a backing object
+    return if refaddr($obj) eq refaddr($self);
+
+    $obj->$method(@_);
+}
 
 __PACKAGE__;
 
@@ -96,7 +99,17 @@ Catalyst::Authentication::User - Base class for user objects.
 
 =head1 DESCRIPTION
 
-This is the base class for authenticated 
+This is the base class for authentication user objects.
+
+THIS IS NOT A COMPLETE CLASS! it is intended to provide base functionality only.
+
+It provides the base methods listed below, and any additional methods
+are proxied onto the user object fetched from the underlieing store.
+
+=head1 NOTES TO STORE IMPLEMENTORS
+
+Please read the comments in the source code of this class to work out
+which methods you should override.
 
 =head1 METHODS
 
@@ -119,12 +132,17 @@ Returns the value for the $field provided.
 
 =head2 get_object( )
 
-Returns the underlying object storing the user data.  The return value of this function will vary depending
+Returns the underlying object storing the user data.  The return value of this
+method will vary depending
 on the storage module used.
 
 =head2 obj( )
 
 Shorthand for get_object( )
+
+=head2 AUTOLOAD
+
+Delegates any unknown methods onto the user object returned by ->obj
 
 =cut
 

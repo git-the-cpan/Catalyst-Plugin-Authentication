@@ -142,19 +142,19 @@ EXAMPLE
                             },
                             store => {
                                 class => 'Minimal',
-                                    users => {
-                                        bob => {
-                                            password => "s00p3r",                   
-                                            editor => 'yes',
-                                            roles => [qw/edit delete/],
-                                        },
-                                        william => {
-                                            password => "s3cr3t",
-                                            roles => [qw/comment/],
-                                        }
-                                    }       
+                                users => {
+                                    bob => {
+                                        password => "s00p3r",
+                                        editor => 'yes',
+                                        roles => [qw/edit delete/],
+                                    },
+                                    william => {
+                                        password => "s3cr3t",
+                                        roles => [qw/comment/],
+                                    }
                                 }
                             }
+                        }
                     }
         );
 
@@ -251,7 +251,7 @@ EXAMPLE
     database. You can accomplish this simply by installing the DBIx::Class
     Store and changing your config:
 
-        __PACKAGE__->config( 'Plugin::Authentication'} =>
+        __PACKAGE__->config( 'Plugin::Authentication' =>
                         {
                             default_realm => 'members',
                             members => {
@@ -262,9 +262,9 @@ EXAMPLE
                                 },
                                 store => {
                                     class => 'DBIx::Class',
-                                        user_class => 'MyApp::Users',
-                                        role_column => 'roles'      
-                                    }
+                                    user_model => 'MyApp::Users',
+                                    role_column => 'roles',
+                                }
                             }
                         }
         );
@@ -286,21 +286,21 @@ CONFIGURATION
                             },
                             store => {
                                 class => 'DBIx::Class',
-                                user_class => 'MyApp::Users',
-                                role_column => 'roles'      
+                                user_model => 'MyApp::Users',
+                                role_column => 'roles',
                             }
-                            },
-                            admins => {
-                                credential => {
-                                    class => 'Password',
-                                    password_field => 'password',
+                        },
+                        admins => {
+                            credential => {
+                                class => 'Password',
+                                password_field => 'password',
                                 password_type => 'clear'
-                                },
-                                store => {
-                                    class => '+MyApp::Authentication::Store::NetAuth',
-                                    authserver => '192.168.10.17'
-                                }
+                            },
+                            store => {
+                                class => '+MyApp::Authentication::Store::NetAuth',
+                                authserver => '192.168.10.17'
                             }
+                        }
                     }
         );
 
@@ -376,7 +376,7 @@ METHODS
 
   $c->logout( )
     Logs the user out. Deletes the currently logged in user from "$c->user"
-    and the session.
+    and the session. It does not delete the session.
 
   $c->find_user( $userinfo, $realm )
     Fetch a particular users details, matching the provided user info, from
@@ -484,7 +484,7 @@ COMPATIBILITY CONFIGURATION
     inside a "realms" key in the configuration.
 
         # example
-        __PACKAGE__->config( 'Plugin::Authentication'} =>
+        __PACKAGE__->config( 'Plugin::Authentication' =>
                     {
                         default_realm => 'members',
                         realms => {
@@ -530,7 +530,7 @@ COMPATIBILITY ROUTINES
     Store} )" if that value exists, or by using a Store plugin:
 
         # load the Minimal authentication store.
-            use Catalyst qw/Authentication Authentication::Store::Minimal/;
+        use Catalyst qw/Authentication Authentication::Store::Minimal/;
 
     Sets the default store to
     Catalyst::Plugin::Authentication::Store::Minimal.
@@ -564,8 +564,14 @@ AUTHORS
 
     Nigel Metheringham
 
+    Florian Ragwitz "rafl@debian.org"
+
+    Stephan Jauernick "stephanj@cpan.org"
+
 COPYRIGHT & LICENSE
-            Copyright (c) 2005 the aforementioned authors. All rights
-            reserved. This program is free software; you can redistribute
-            it and/or modify it under the same terms as Perl itself.
+    Copyright (c) 2005 - 2009 the Catalyst::Plugin::Authentication "AUTHORS"
+    as listed above.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 

@@ -1,5 +1,15 @@
 Revision history for Perl extension Catalyst::Plugin::Authentication
 
+     - Move root actions out of applcation class in tests to remove
+       warnings in the latest Catalyst.
+     - Add AUTOLOAD method to the default user class so that methods are
+       delegated down onto the underlieing user object retrieved from
+       the store (if present)
+     - Fix typos in documentation (RT#49476)
+     - Fix compatibilty with Catalyst 5.70 (RT#50466)
+     - Various documentation improvements
+     - Fix Realm::Processive's authinfo_mungle option (RT#47106)
+
 0.10015 Tue Sep 1 01:40:36 BST 2009
 
      - Remove (undeclared) dependency on Class::Data::Inhertiable (RT#49086)

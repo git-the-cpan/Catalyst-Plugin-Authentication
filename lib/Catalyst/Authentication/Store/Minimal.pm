@@ -18,23 +18,23 @@ sub new {
 }
 
 sub from_session {
-	my ( $self, $c, $id ) = @_;
+    my ( $self, $c, $id ) = @_;
 
-	return $id if ref $id;
+    return $id if ref $id;
 
-	$self->find_user( { id => $id } );
+    $self->find_user( { id => $id } );
 }
 
-## this is not necessarily a good example of what find_user can do, since all we do is   
-## look up with the id anyway.  find_user can be used to locate a user based on other 
+## this is not necessarily a good example of what find_user can do, since all we do is
+## look up with the id anyway.  find_user can be used to locate a user based on other
 ## combinations of data.  See C::P::Authentication::Store::DBIx::Class for a better example
 sub find_user {
     my ( $self, $userinfo, $c ) = @_;
 
     my $id = $userinfo->{'id'};
-    
+
     $id ||= $userinfo->{'username'};
-    
+
     return unless exists $self->userhash->{$id};
 
     my $user = $self->userhash->{$id};
@@ -64,7 +64,7 @@ sub user_supports {
 ## Backwards compatibility
 #
 # This is a backwards compatible routine.  get_user is specifically for loading a user by it's unique id
-# find_user is capable of doing the same by simply passing { id => $id }  
+# find_user is capable of doing the same by simply passing { id => $id }
 # no new code should be written using get_user as it is deprecated.
 sub get_user {
     my ( $self, $id ) = @_;
@@ -92,8 +92,8 @@ Catalyst::Authentication::Store::Minimal - Minimal authentication store
         Authentication
     /;
 
-    __PACKAGE__->config( 'Plugin::Authentication' => 
-                    {  
+    __PACKAGE__->config( 'Plugin::Authentication' =>
+                    {
                         default_realm => 'members',
                         realms => {
                             members => {
@@ -104,24 +104,24 @@ Catalyst::Authentication::Store::Minimal - Minimal authentication store
                                 },
                                 store => {
                                     class => 'Minimal',
-                	                users = {
-                	                    bob => {
-                	                        password => "s00p3r",                	                    
-                	                        editor => 'yes',
-                	                        roles => [qw/edit delete/],
-                	                    },
-                	                    william => {
-                	                        password => "s3cr3t",
-                	                        roles => [qw/comment/],
-                	                    }
-                	                }	                
-                	            }
-                	        }
-                    	}
+                                    users => {
+                                        bob => {
+                                            password => "s00p3r",
+                                            editor => 'yes',
+                                            roles => [qw/edit delete/],
+                                        },
+                                        william => {
+                                            password => "s3cr3t",
+                                            roles => [qw/comment/],
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
     );
 
-    
+
 =head1 DESCRIPTION
 
 This authentication store lets you create a very quick and dirty user
@@ -140,7 +140,7 @@ at runtime.
 
 =over 4
 
-=item class 
+=item class
 
 The classname used for the store. This is part of
 L<Catalyst::Plugin::Authentication> and is the method by which
@@ -151,8 +151,8 @@ user store. For this module to be used, this must be set to
 =item users
 
 This is a simple hash of users, the keys are the usenames, and the values are
-hashrefs containing a password key/value pair, and optionally, a roles/list 
-of role-names pair. If using roles, you will also need to add the 
+hashrefs containing a password key/value pair, and optionally, a roles/list
+of role-names pair. If using roles, you will also need to add the
 Authorization::Roles plugin.
 
 See the SYNOPSIS for an example.
@@ -162,15 +162,15 @@ See the SYNOPSIS for an example.
 =head1 METHODS
 
 There are no publicly exported routines in the Minimal store (or indeed in
-most authentication stores)  However, below is a description of the routines 
+most authentication stores)  However, below is a description of the routines
 required by L<Catalyst::Plugin::Authentication> for all authentication stores.
 
 =head2 new( $config, $app, $realm )
 
-Constructs a new store object, which uses the user element of the supplied config 
+Constructs a new store object, which uses the user element of the supplied config
 hash ref as it's backing structure.
 
-=head2 find_user( $authinfo, $c ) 
+=head2 find_user( $authinfo, $c )
 
 Keys the hash by the 'id' or 'username' element in the authinfo hash and returns the user.
 

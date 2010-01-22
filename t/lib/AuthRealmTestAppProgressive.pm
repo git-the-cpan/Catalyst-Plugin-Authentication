@@ -1,6 +1,7 @@
 package AuthRealmTestAppProgressive;
 use warnings;
 use strict;
+use base qw/Catalyst/;
 
 ### using A::Store::minimal with new style realms
 ### makes the app blow up, since c::p::a::s::minimal
@@ -13,9 +14,6 @@ use Catalyst qw/
     Authentication::Store::Minimal
 /;
 
-use Test::More;
-use Test::Exception;
-
 our %members = (
     'members' => {
         bob => { password => "s00p3r" }
@@ -25,7 +23,7 @@ our %members = (
     },
 );
 
-__PACKAGE__->config->{'Plugin::Authentication'} = {
+__PACKAGE__->config('Plugin::Authentication' => {
     default_realm => 'progressive',
     progressive => {
         class  => 'Progressive',
@@ -53,25 +51,9 @@ __PACKAGE__->config->{'Plugin::Authentication'} = {
             users => $members{members},
         }
     },
-};
-
-sub progressive : Local {
-	my ( $self, $c ) = @_;
-
-    foreach my $realm ( keys %members ) {
-        while ( my ( $user, $info ) = each %{$members{$realm}} ) {
-            my $ok = eval {
-                $c->authenticate(
-                    { username => $user, password => $info->{password} },
-                ); 
-            };
-            ok( !$@, "authentication passed." );
-            ok( $ok, "user authenticated" );
-            ok( $c->user_in_realm($realm), "user in proper realm" );
-        }
-    }
-	$c->res->body( "ok" );
-}
+});
 
 __PACKAGE__->setup;
+
+1;
 

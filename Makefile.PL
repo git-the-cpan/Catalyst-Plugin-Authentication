@@ -16,7 +16,7 @@ requires 'Class::Inspector';
 requires 'MRO::Compat';
 requires 'Catalyst::Plugin::Session' => '0.10';
 
-test_requires 'Test::More';
+test_requires 'Test::More' => '0.88';
 test_requires 'Test::Exception';
 test_requires 'Class::MOP';
 test_requires 'Moose';

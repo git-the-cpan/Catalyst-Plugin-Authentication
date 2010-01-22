@@ -2,6 +2,7 @@ package Catalyst::Plugin::Authentication::Store::Minimal;
 
 use strict;
 use warnings;
+use MRO::Compat;
 
 use Catalyst::Authentication::Store::Minimal ();
 
@@ -22,20 +23,20 @@ sub setup {
     ###  lib/Catalyst/Authentication/Store/Minimal.pm line 38.
     ###
     ### So only do this compatibility call if:
-    ### 1) we have a {users} config directive 
+    ### 1) we have a {users} config directive
     ###
     ### Ideally we could also check for:
     ### 2) we don't already have a ->userhash
-    ### however, that's an attribute of an object we can't 
+    ### however, that's an attribute of an object we can't
     ### access =/ --kane
-    
+
     my $cfg = $c->config->{'Plugin::Authentication'}->{users}
                 ? $c->config->{'Plugin::Authentication'}
                 : undef;
 
     $c->default_auth_store( Catalyst::Authentication::Store::Minimal->new( $cfg, $c ) ) if $cfg;
-    
-	$c->NEXT::setup(@_);
+
+	$c->next::method(@_);
 }
 
 foreach my $method (qw/ get_user user_supports find_user from_session /) {

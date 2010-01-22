@@ -1,10 +1,15 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More;
 use Test::Exception;
 
 my $m; BEGIN { use_ok($m = "Catalyst::Authentication::User") }
+
+{
+    package SomeBaseUser;
+    sub other_method { 'FNAR' };
+}
 
 {
 	package SomeUser;
@@ -21,6 +26,9 @@ my $m; BEGIN { use_ok($m = "Catalyst::Authentication::User") }
 			top_level => 1,
 		}
 	}
+    sub get_object {
+        bless {}, 'SomeBaseUser';
+    }
 }
 
 my $o = SomeUser->new;
@@ -38,5 +46,11 @@ lives_ok {
 #dies_ok {
 #	$o->supports(qw/bad_key subfeature/)
 #} "but can't traverse into one";
+
+lives_ok {
+    is $o->other_method, 'FNAR', 'Delegation onto user object works';
+} 'Delegation lives';
+
+done_testing;
 
 

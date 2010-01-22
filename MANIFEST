@@ -1,3 +1,4 @@
+.gitignore
 Changes
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
@@ -37,12 +38,19 @@ t/06_user.t
 t/author/pod.t
 t/author/pod_coverage.t
 t/lib/AuthRealmTestApp.pm
+t/lib/AuthRealmTestApp/Controller/Root.pm
 t/lib/AuthRealmTestAppCompat.pm
+t/lib/AuthRealmTestAppCompat/Controller/Root.pm
 t/lib/AuthRealmTestAppProgressive.pm
+t/lib/AuthRealmTestAppProgressive/Controller/Root.pm
 t/lib/AuthSessionTestApp.pm
+t/lib/AuthSessionTestApp/Controller/Root.pm
 t/lib/AuthTestApp.pm
+t/lib/AuthTestApp/Controller/Root.pm
 t/lib/RemoteTestApp1.pm
+t/lib/RemoteTestApp1/Controller/Root.pm
 t/lib/RemoteTestApp2.pm
+t/lib/RemoteTestApp2/Controller/Root.pm
 t/lib/RemoteTestEngine.pm
 t/live_app.t
 t/live_app_realms.t

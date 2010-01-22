@@ -45,7 +45,7 @@ sub authenticate {
     my $remuser;
     if ($self->source eq "REMOTE_USER") {    
         # compatibility hack:
-        if (defined($c->engine->env)) {
+        if ($c->engine->can('env') && defined($c->engine->env)) {
             # BEWARE: $c->engine->env was broken prior 5.80005
             $remuser = $c->engine->env->{REMOTE_USER};
         }

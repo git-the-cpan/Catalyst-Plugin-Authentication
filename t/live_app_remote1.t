@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More;
 
 use lib 't/lib';
 use Catalyst::Test qw/RemoteTestApp1/;
@@ -28,3 +28,6 @@ is( request('/')->content, 'User:namexyz', 'testing "cutname" option 2' );
 
 $RemoteTestEngine::REMOTE_USER = 'CN=/OU=Test/C=Company';
 is( request('/')->content, 'User:CN=/OU=Test/C=Company', 'testing "cutname" option - empty $1 match' );
+
+done_testing;
+
