@@ -9,7 +9,7 @@ use Test::More;
 use Test::Exception;
 
 sub progressive : Local {
-	my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 
     foreach my $realm ( keys %AuthRealmTestAppProgressive::members ) {
         while ( my ( $user, $info ) = each %{$AuthRealmTestAppProgressive::members{$realm}} ) {
@@ -23,7 +23,7 @@ sub progressive : Local {
             ok( $c->user_in_realm($realm), "user in proper realm" );
         }
     }
-	$c->res->body( "ok" );
+    $c->res->body( "ok" );
 }
 
 1;

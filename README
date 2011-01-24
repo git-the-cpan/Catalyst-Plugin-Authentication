@@ -362,13 +362,18 @@ METHODS
 
   $c->user( )
     Returns the currently logged in user, or undef if there is none.
+    Normally the user is re-retrieved from the store. For
+    Catalyst::Authentication::Store::DBIx::Class the user is re-restored
+    using the primary key of the user table. Thus user can throw an error
+    even though user_exists returned true.
 
   $c->user_exists( )
     Returns true if a user is logged in right now. The difference between
     user_exists and user is that user_exists will return true if a user is
     logged in, even if it has not been yet retrieved from the storage
     backend. If you only need to know if the user is logged in, depending on
-    the storage mechanism this can be much more efficient.
+    the storage mechanism this can be much more efficient. user_exists only
+    looks into the session while user is trying to restore the user.
 
   $c->user_in_realm( $realm )
     Works like user_exists, except that it only returns true if a user is
@@ -381,6 +386,9 @@ METHODS
   $c->find_user( $userinfo, $realm )
     Fetch a particular users details, matching the provided user info, from
     the realm specified in $realm.
+
+        $user = $c->find_user({ id => $id });
+        $c->set_authenticated($user); # logs the user in and calls persist_user
 
   persist_user()
     Under normal circumstances the user data is only saved to the session
@@ -403,7 +411,7 @@ INTERNAL METHODS
   $c->set_authenticated( $user, $realmname )
     Marks a user as authenticated. This is called from within the
     authenticate routine when a credential returns a user. $realmname
-    defaults to 'default'
+    defaults to 'default'. You can use find_user to get $user
 
   $c->auth_restore_user( $user, $realmname )
     Used to restore a user from the session. In most cases this is called

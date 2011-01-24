@@ -12,7 +12,7 @@ use Tie::RefHash;
 use Class::Inspector;
 use Catalyst::Authentication::Realm;
 
-our $VERSION = "0.10016";
+our $VERSION = "0.10017";
 
 sub set_authenticated {
     my ( $c, $user, $realmname ) = @_;
@@ -863,14 +863,20 @@ default realm is checked.
 =head2 $c->user( )
 
 Returns the currently logged in user, or undef if there is none.
+Normally the user is re-retrieved from the store.
+For L<Catalyst::Authentication::Store::DBIx::Class> the user is re-restored 
+using the primary key of the user table. 
+Thus B<user> can throw an error even though B<user_exists>
+returned true.
 
 =head2 $c->user_exists( )
 
 Returns true if a user is logged in right now. The difference between
-user_exists and user is that user_exists will return true if a user is logged
+B<user_exists> and B<user> is that user_exists will return true if a user is logged
 in, even if it has not been yet retrieved from the storage backend. If you only
 need to know if the user is logged in, depending on the storage mechanism this
 can be much more efficient.
+B<user_exists> only looks into the session while B<user> is trying to restore the user.
 
 =head2 $c->user_in_realm( $realm )
 
@@ -886,6 +892,9 @@ and the session.  It does not delete the session.
 
 Fetch a particular users details, matching the provided user info, from the realm
 specified in $realm.
+
+    $user = $c->find_user({ id => $id });
+    $c->set_authenticated($user); # logs the user in and calls persist_user
 
 =head2 persist_user()
 
@@ -911,7 +920,8 @@ for reference.
 =head2 $c->set_authenticated( $user, $realmname )
 
 Marks a user as authenticated. This is called from within the authenticate
-routine when a credential returns a user. $realmname defaults to 'default'
+routine when a credential returns a user. $realmname defaults to 'default'.
+You can use find_user to get $user
 
 =head2 $c->auth_restore_user( $user, $realmname )
 

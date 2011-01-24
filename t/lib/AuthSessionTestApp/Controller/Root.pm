@@ -11,25 +11,25 @@ use Test::Exception;
 use Digest::MD5 qw/md5/;
 
 sub moose : Local {
-	my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 
-	ok(!$c->sessionid, "no session id yet");
-	ok(!$c->user_exists, "no user exists");
-	ok(!$c->user, "no user yet");
-	ok($c->login( "foo", "s3cr3t" ), "can login with clear");
-	is( $c->user, $AuthSessionTestApp::users->{foo}, "user object is in proper place");
+    ok(!$c->sessionid, "no session id yet");
+    ok(!$c->user_exists, "no user exists");
+    ok(!$c->user, "no user yet");
+    ok($c->login( "foo", "s3cr3t" ), "can login with clear");
+    is( $c->user, $AuthSessionTestApp::users->{foo}, "user object is in proper place");
 }
 
 sub elk : Local {
-	my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 
-	ok( $c->sessionid, "session ID was restored" );
-	ok( $c->user_exists, "user exists" );
-	ok( $c->user, "a user was also restored");
-	is_deeply( $c->user, $AuthSessionTestApp::users->{foo}, "restored user is the right one (deep test - store might change identity)" );
+    ok( $c->sessionid, "session ID was restored" );
+    ok( $c->user_exists, "user exists" );
+    ok( $c->user, "a user was also restored");
+    is_deeply( $c->user, $AuthSessionTestApp::users->{foo}, "restored user is the right one (deep test - store might change identity)" );
 
-	# Rename the user!
-	$AuthSessionTestApp::users->{bar} = delete $AuthSessionTestApp::users->{foo};
+    # Rename the user!
+    $AuthSessionTestApp::users->{bar} = delete $AuthSessionTestApp::users->{foo};
 }
 
 sub yak : Local {
@@ -60,7 +60,7 @@ sub fluffy_bunny : Local {
 sub possum : Local {
     my ( $self, $c ) = @_;
 
-	ok( !$c->session_is_valid, "no session ID was restored");
+    ok( !$c->session_is_valid, "no session ID was restored");
     $c->session->{definitely_not_a_user} = "moose";
 
 }

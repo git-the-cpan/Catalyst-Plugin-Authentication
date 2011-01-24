@@ -1,5 +1,9 @@
 Revision history for Perl extension Catalyst::Plugin::Authentication
 
+0.10017 24 Jan 2010
+     - Fix failing tests with the new PSGI Catalyst dev release
+
+0.10016 22 Jan 2010
      - Move root actions out of applcation class in tests to remove
        warnings in the latest Catalyst.
      - Add AUTOLOAD method to the default user class so that methods are
@@ -8,7 +12,7 @@ Revision history for Perl extension Catalyst::Plugin::Authentication
      - Fix typos in documentation (RT#49476)
      - Fix compatibilty with Catalyst 5.70 (RT#50466)
      - Various documentation improvements
-     - Fix Realm::Processive's authinfo_mungle option (RT#47106)
+     - Fix Realm::Processive's authinfo_munge option (RT#47106)
 
 0.10015 Tue Sep 1 01:40:36 BST 2009
 

@@ -12,20 +12,20 @@ my $m; BEGIN { use_ok($m = "Catalyst::Authentication::User") }
 }
 
 {
-	package SomeUser;
-	use base $m;
+    package SomeUser;
+    use base $m;
 
-	sub new { bless {}, shift };
+    sub new { bless {}, shift };
 
-	sub supported_features {
-		{
-			feature => {
-				subfeature => 1,
-				unsupported_subfeature => 0,
-			},
-			top_level => 1,
-		}
-	}
+    sub supported_features {
+        {
+            feature => {
+                subfeature => 1,
+                unsupported_subfeature => 0,
+            },
+            top_level => 1,
+        }
+    }
     sub get_object {
         bless {}, 'SomeBaseUser';
     }
@@ -40,11 +40,11 @@ ok( $o->supports(qw/feature subfeature/), "traversal");
 ok( !$o->supports(qw/feature unsupported_subfeature/), "traversal terminating in false");
 
 lives_ok {
-	$o->supports("bad_key");
+    $o->supports("bad_key");
 } "can check for non existent feature";
 
 #dies_ok {
-#	$o->supports(qw/bad_key subfeature/)
+#    $o->supports(qw/bad_key subfeature/)
 #} "but can't traverse into one";
 
 lives_ok {

@@ -176,7 +176,7 @@ is able to handle.
 Besides the common methods like HTTP Basic and Digest authentication you can
 also use sophisticated ones like so called "integrated authentication" via
 NTLM or Kerberos (popular in corporate intranet applications running in Windows
-Active Directory enviroment) or even the SSL authentication when users 
+Active Directory environment) or even the SSL authentication when users 
 authenticate themself using their client SSL certificates.   
 
 The main idea of this module is based on a fact that webserver passes the name
@@ -254,7 +254,7 @@ The order deny-allow is fixed.
 This config item is B<OPTIONAL> - no default value.
 
 If param B<cutname_regexp> is specified we try to cut the final usename passed to
-Catalyst application as a substring from WEBUSER. This is usefull for 
+Catalyst application as a substring from WEBUSER. This is useful for 
 example in case of SSL authentication when WEBUSER looks like this 
 'CN=john, OU=Unit Name, O=Company, C=CZ' - from this format we can simply cut
 pure usename by cutname_regexp set to 'CN=(.*), OU=Unit Name, O=Company, C=CZ'.

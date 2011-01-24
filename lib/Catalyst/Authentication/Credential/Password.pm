@@ -46,7 +46,10 @@ sub authenticate {
             return $user_obj;
         }
     } else {
-        $c->log->debug("Unable to locate user matching user info provided") if $c->debug;
+        $c->log->debug(
+            'Unable to locate user matching user info provided in realm: '
+            . $realm->name
+            ) if $c->debug;
         return;
     }
 }

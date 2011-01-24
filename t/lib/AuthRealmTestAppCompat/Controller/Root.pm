@@ -9,7 +9,7 @@ use Test::More;
 use Test::Exception;
 
 sub moose : Local {
-	my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 
     while ( my ($user, $info) = each %$AuthRealmTestAppCompat::members ) {
 
@@ -24,7 +24,7 @@ sub moose : Local {
         ok( $ok,                "user $user authentication" );
     }
 
-	$c->res->body( "ok" );
+    $c->res->body( "ok" );
 }
 
 1;

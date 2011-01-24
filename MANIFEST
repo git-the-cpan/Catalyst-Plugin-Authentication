@@ -35,6 +35,7 @@ README
 t/04_authentication.t
 t/05_password.t
 t/06_user.t
+t/author/notabs.t
 t/author/pod.t
 t/author/pod_coverage.t
 t/lib/AuthRealmTestApp.pm

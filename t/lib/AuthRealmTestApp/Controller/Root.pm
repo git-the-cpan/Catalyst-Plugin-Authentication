@@ -9,9 +9,9 @@ use Test::More;
 use Test::Exception;
 
 sub moose : Local {
-	my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 
-	ok(!$c->user, "no user");
+    ok(!$c->user, "no user");
 
     while ( my ($user, $info) = each %$AuthRealmTestApp::members ) {
 
@@ -35,7 +35,7 @@ sub moose : Local {
 
         $c->logout;
 
-	    # sanity check
+        # sanity check
         ok(!$c->user, "no more user after logout");
 
     }
@@ -62,12 +62,12 @@ sub moose : Local {
 
         $c->logout;
 
-	    # sanity check
+        # sanity check
         ok(!$c->user, "no more user after logout");
 
     }
 
-	$c->res->body( "ok" );
+    $c->res->body( "ok" );
 }
 
 1;

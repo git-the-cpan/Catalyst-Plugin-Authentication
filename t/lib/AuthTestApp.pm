@@ -3,9 +3,9 @@ use strict;
 use warnings;
 use base qw/Catalyst/;
 use Catalyst qw/
-	Authentication
-	Authentication::Store::Minimal
-	Authentication::Credential::Password
+    Authentication
+    Authentication::Store::Minimal
+    Authentication::Credential::Password
 /;
 
 use Digest::MD5 qw/md5/;

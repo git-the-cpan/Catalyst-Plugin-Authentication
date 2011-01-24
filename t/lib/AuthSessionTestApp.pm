@@ -10,20 +10,20 @@ use warnings;
 use base qw/Catalyst/;
 
 use Catalyst qw/
-	Session
-	Session::Store::Dummy
-	Session::State::Cookie
+    Session
+    Session::Store::Dummy
+    Session::State::Cookie
 
-	Authentication
-	Authentication::Store::Minimal
-	Authentication::Credential::Password
+    Authentication
+    Authentication::Store::Minimal
+    Authentication::Credential::Password
 /;
 
 our $users = {
-	foo => User::SessionRestoring->new(
-		id => 'foo',
-		password => "s3cr3t",
-	),
+    foo => User::SessionRestoring->new(
+        id => 'foo',
+        password => "s3cr3t",
+    ),
 };
 
 __PACKAGE__->config(authentication => {users => $users});
