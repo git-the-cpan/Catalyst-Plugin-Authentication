@@ -1,5 +1,8 @@
 Revision history for Perl extension Catalyst::Plugin::Authentication
 
+0.10018 29 Jul 2011
+     - Fix failing tests with the new PSGI Catalyst dev release
+
 0.10017 24 Jan 2010
      - Fix failing tests with the new PSGI Catalyst dev release
 

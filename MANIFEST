@@ -53,6 +53,7 @@ t/lib/RemoteTestApp1/Controller/Root.pm
 t/lib/RemoteTestApp2.pm
 t/lib/RemoteTestApp2/Controller/Root.pm
 t/lib/RemoteTestEngine.pm
+t/lib/RemoteTestEngineRole.pm
 t/live_app.t
 t/live_app_realms.t
 t/live_app_realms_compat.t
