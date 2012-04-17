@@ -1,18 +1,17 @@
 package Catalyst::Plugin::Authentication;
 
-use base qw/Class::Accessor::Fast/;
-
-__PACKAGE__->mk_accessors(qw/_user/);
-
-use strict;
-use warnings;
-
+use Moose;
+use namespace::clean -except => 'meta';
 use MRO::Compat;
 use Tie::RefHash;
 use Class::Inspector;
 use Catalyst::Authentication::Realm;
 
-our $VERSION = "0.10018";
+with 'MooseX::Emulate::Class::Accessor::Fast';
+
+__PACKAGE__->mk_accessors(qw/_user/);
+
+our $VERSION = "0.10019";
 
 sub set_authenticated {
     my ( $c, $user, $realmname ) = @_;
@@ -474,6 +473,7 @@ sub auth_stores {
     my %hash = ( 'default' => $self->get_auth_realm('default')->store);
 }
 
+__PACKAGE__->meta->make_immutable;
 __PACKAGE__;
 
 __END__
@@ -1132,9 +1132,13 @@ Florian Ragwitz C<rafl@debian.org>
 
 Stephan Jauernick C<stephanj@cpan.org>
 
+Oskari Ojala (Okko), C<perl@okko.net>
+
+John Napiorkowski (jnap) C<jjnapiork@cpan.org>
+
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2005 - 2009
+Copyright (c) 2005 - 2012
 the Catalyst::Plugin::Authentication L</AUTHORS>
 as listed above.
 

@@ -1,5 +1,13 @@
 Revision history for Perl extension Catalyst::Plugin::Authentication
 
+0.10019 14 April 2012
+     - Upgrade code to use Moose compatibility layer (jnap)
+     - Added some rules to .gitignore for people using macs (jnap)
+     - Updated copyright info
+     - Catalyst::Plugin::Authentication::Credential::NoPassword added
+       (Okko)
+     - Convert repository to git (fREW Schmidt)
+
 0.10018 29 Jul 2011
      - Fix failing tests with the new PSGI Catalyst dev release
 
@@ -70,16 +78,16 @@ Revision history for Perl extension Catalyst::Plugin::Authentication
         - Add test for this.
       - Fix bug in Credential::Password with password_type: clear.
         - Add test for this.
-      - Add mock object tests for Credential::Password with password_type: 
+      - Add mock object tests for Credential::Password with password_type:
         clear.
 
 0.100092
-      - Release new version, no changes since dev release.     
+      - Release new version, no changes since dev release.
 
 0.10009_01
       - Fix POD escaping, from RT#38694 (Luke Ross)
       - Change authentication backwards compatibility handling to not rely on
-        Class::Data::Inheritable side effects, and so be Catalyst 5.80 safe 
+        Class::Data::Inheritable side effects, and so be Catalyst 5.80 safe
         (t0m)
 
 0.10009 2008-11-27
@@ -87,14 +95,14 @@ Revision history for Perl extension Catalyst::Plugin::Authentication
           in a single request.
 
 0.10008 2008-10-23
-		- Updating config to allow for inclusion of realm ref's in the main
-		  config hash rather than in a subref called 'realms'
+      - Updating config to allow for inclusion of realm ref's in the main
+        config hash rather than in a subref called 'realms'
 
 0.10007 2008-08-17
-	- Update tests prereqs to include Test::Exception (RT #36339)
+   - Update tests prereqs to include Test::Exception (RT #36339)
         - Some documentation fixes (including RT #36062)
         - Compatibility fix where the use of new style config and old
-          style Authentication::Store::Minimal would cause a crash 
+          style Authentication::Store::Minimal would cause a crash
           (Reported & fixed by Jos Boumans C<kane@cpan.org>)
         - Documentation update on Password - to indicate proper field naming
         - Decouple Authentication system from session.  The realm class
@@ -170,9 +178,9 @@ Revision history for Perl extension Catalyst::Plugin::Authentication
         - Added user_exists method.
 
 0.02    2005-11-29 11:39:00
-		- Fixed a typo (PLugin instead of Plugin) that caused user objects
-		  to not be restored from the session properly. Modified test suite
-		  to actually test for this case.
+      - Fixed a typo (PLugin instead of Plugin) that caused user objects
+        to not be restored from the session properly. Modified test suite
+        to actually test for this case.
 
 0.01    2005-11-27 02:30:00
         - Initial release.

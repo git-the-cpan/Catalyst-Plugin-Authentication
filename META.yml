@@ -4,14 +4,15 @@ author:
   - 'Yuval Kogman, C<nothingmuch@woobling.org>'
 build_requires:
   Class::MOP: 0
-  ExtUtils::MakeMaker: 6.42
+  ExtUtils::MakeMaker: 6.59
   Moose: 0
   Test::Exception: 0
   Test::More: 0.88
 configure_requires:
-  ExtUtils::MakeMaker: 6.42
+  ExtUtils::MakeMaker: 6.59
 distribution_type: module
-generated_by: 'Module::Install version 1.01'
+dynamic_config: 1
+generated_by: 'Module::Install version 1.06'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -26,8 +27,11 @@ requires:
   Catalyst::Runtime: 0
   Class::Inspector: 0
   MRO::Compat: 0
+  Moose: 0
+  MooseX::Emulate::Class::Accessor::Fast: 0
+  namespace::clean: 0
   perl: 5.8.1
 resources:
   license: http://dev.perl.org/licenses/
-  repository: http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Plugin-Authentication/0.10000/trunk
-version: 0.10018
+  repository: git://git.shadowcat.co.uk/catagits/Catalyst-Plugin-Authentication.git
+version: 0.10019
