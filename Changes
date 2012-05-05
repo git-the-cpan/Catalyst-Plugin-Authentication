@@ -1,5 +1,9 @@
 Revision history for Perl extension Catalyst::Plugin::Authentication
 
+0.10020 05 May 2012
+     - Allow user_class to be configured for Catalyst::Authentication::Store::Minimal
+       (Jochen Lutz <jlu@akk.org>)
+
 0.10019 14 April 2012
      - Upgrade code to use Moose compatibility layer (jnap)
      - Added some rules to .gitignore for people using macs (jnap)

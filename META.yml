@@ -34,4 +34,4 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: git://git.shadowcat.co.uk/catagits/Catalyst-Plugin-Authentication.git
-version: 0.10019
+version: 0.10020

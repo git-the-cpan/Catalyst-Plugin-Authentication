@@ -3,18 +3,24 @@ package Catalyst::Authentication::Store::Minimal;
 use strict;
 use warnings;
 
-use Catalyst::Authentication::User::Hash;
 use Scalar::Util qw( blessed );
 use base qw/Class::Accessor::Fast/;
 
 BEGIN {
-    __PACKAGE__->mk_accessors(qw/userhash/);
+    __PACKAGE__->mk_accessors(qw/userhash userclass/);
 }
 
 sub new {
     my ( $class, $config, $app, $realm) = @_;
 
-    bless { userhash => $config->{'users'} }, $class;
+    my $self = bless {
+        userhash => $config->{'users'},
+        userclass => $config->{'user_class'} || "Catalyst::Authentication::User::Hash",
+    }, $class;
+
+    Catalyst::Utils::ensure_class_loaded( $self->userclass );
+
+    return $self;
 }
 
 sub from_session {
@@ -41,7 +47,7 @@ sub find_user {
 
     if ( ref($user) eq "HASH") {
         $user->{id} ||= $id;
-        return bless $user, "Catalyst::Authentication::User::Hash";
+        return bless $user, $self->userclass;
     } elsif ( ref($user) && blessed($user) && $user->isa('Catalyst::Authentication::User::Hash')) {
         return $user;
     } else {
@@ -147,6 +153,12 @@ L<Catalyst::Plugin::Authentication> and is the method by which
 Catalyst::Authentication::Store::Minimal is loaded as the
 user store. For this module to be used, this must be set to
 'Minimal'.
+
+=item user_class
+
+The class used for the user object. If you don't specify a class name, the
+default L<Catalyst::Authentication::User::Hash> will be used. If you define your
+own class, it must inherit from L<Catalyst::Authentication::User::Hash>.
 
 =item users
 
