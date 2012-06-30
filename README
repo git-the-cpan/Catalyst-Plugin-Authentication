@@ -557,32 +557,34 @@ COMPATIBILITY ROUTINES
 
   $c->auth_store_names( )
   $c->get_user( )
+SUPPORT
+    Please use the rt.cpan.org bug tracker, and git patches are wecome.
+
+    Questions on usage should be directed to the Catalyst mailing list or
+    the #catalyst irc channel.
+
 AUTHORS
-    Yuval Kogman, "nothingmuch@woobling.org"
+    Yuval Kogman, "nothingmuch@woobling.org" - original author
 
-    Jay Kuri, "jayk@cpan.org"
+    Jay Kuri, "jayk@cpan.org" - Large rewrite
 
-    Jess Robinson
-
-    David Kamholz
-
+PRIMARY MAINTAINER
     Tomas Doran (t0m), "bobtfish@bobtfish.net"
 
+ADDITIONAL CONTRIBUTORS
+    Jess Robinson
+    David Kamholz
     kmx
-
     Nigel Metheringham
-
     Florian Ragwitz "rafl@debian.org"
-
     Stephan Jauernick "stephanj@cpan.org"
-
     Oskari Ojala (Okko), "perl@okko.net"
-
     John Napiorkowski (jnap) "jjnapiork@cpan.org"
 
 COPYRIGHT & LICENSE
-    Copyright (c) 2005 - 2012 the Catalyst::Plugin::Authentication "AUTHORS"
-    as listed above.
+    Copyright (c) 2005 - 2012 the Catalyst::Plugin::Authentication
+    "AUTHORS", "PRIMARY MAINTAINER" and "ADDITIONAL CONTRIBUTORS" as listed
+    above.
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.

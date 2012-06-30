@@ -1,21 +1,21 @@
 package Catalyst::Authentication::User;
+use Moose;
+use namespace::autoclean;
 
-use strict;
-use warnings;
-use base qw/Class::Accessor::Fast/;
+with 'MooseX::Emulate::Class::Accessor::Fast';
 use Scalar::Util qw/refaddr/;
 
-## auth_realm is the realm this user came from. 
+## auth_realm is the realm this user came from.
 __PACKAGE__->mk_accessors(qw/auth_realm store/);
 
-## THIS IS NOT A COMPLETE CLASS! it is intended to provide base functionality only.  
+## THIS IS NOT A COMPLETE CLASS! it is intended to provide base functionality only.
 ## translation - it won't work if you try to use it directly.
 
 ## chances are you want to override this.
 sub id { shift->get('id'); }
 
-## this relies on 'supported_features' being implemented by the subclass.. 
-## but it is not an error if it is not.  it just means you support nothing.  
+## this relies on 'supported_features' being implemented by the subclass..
+## but it is not an error if it is not.  it just means you support nothing.
 ## nihilist user objects are welcome here.
 sub supports {
     my ( $self, @spec ) = @_;
@@ -31,7 +31,7 @@ sub supports {
 
             $cursor = $cursor->{$_};
         }
-    } 
+    }
 
     return $cursor;
 }
@@ -54,7 +54,7 @@ sub get {
 }
 
 ## REQUIRED.
-## get_object should return the underlying user object.  This is for when more advanced uses of the 
+## get_object should return the underlying user object.  This is for when more advanced uses of the
 ## user is required.  Modifications to the existing user, etc.  Changes in the object returned
 ## by this routine may not be reflected in the C::P::A::User object - if this is required, re-authenticating
 ## the user is probably the best route to take.
@@ -63,7 +63,7 @@ sub get_object {
     return shift;
 }
 
-## obj is shorthand for get_object.  This is originally from the DBIx::Class store, but 
+## obj is shorthand for get_object.  This is originally from the DBIx::Class store, but
 ## as it has become common usage, this makes things more compatible.  Plus, it's shorter.
 sub obj {
     my $self = shift;
@@ -94,8 +94,8 @@ Catalyst::Authentication::User - Base class for user objects.
 
 =head1 SYNOPSIS
 
-	package MyStore::User;
-	use base qw/Catalyst::Authentication::User/;
+    package MyStore::User;
+    use base qw/Catalyst::Authentication::User/;
 
 =head1 DESCRIPTION
 

@@ -1,15 +1,12 @@
 package Catalyst::Authentication::Store::Null;
+use Moose;
+use namespace::autoclean;
 
-use strict;
-use warnings;
+with 'MooseX::Emulate::Class::Accessor::Fast';
 
 use Catalyst::Authentication::User::Hash;
 
-use base qw( Class::Accessor::Fast );
-
-BEGIN {
-    __PACKAGE__->mk_accessors( qw( _config ) );
-}
+__PACKAGE__->mk_accessors( qw( _config ) );
 
 sub new {
     my ( $class, $config, $app, $realm ) = @_;
@@ -17,12 +14,12 @@ sub new {
 }
 
 sub for_session {
-	my ( $self, $c, $user ) = @_;
+    my ( $self, $c, $user ) = @_;
     return $user;
 }
 
 sub from_session {
-	my ( $self, $c, $user ) = @_;
+    my ( $self, $c, $user ) = @_;
     return $user;
 }
 
@@ -64,7 +61,7 @@ Catalyst::Authentication::Store::Null - Null authentication store
                     class => 'Null',
                 }
             }
-    	}
+        }
     });
 
 =head1 DESCRIPTION

@@ -111,11 +111,11 @@ object based on hashes.
 
 =head1 SYNOPSIS
 
-	use Catalyst::Authentication::User::Hash;
-	
-	Catalyst::Authentication::User::Hash->new(
-		password => "s3cr3t",
-	);
+    use Catalyst::Authentication::User::Hash;
+    
+    Catalyst::Authentication::User::Hash->new(
+        password => "s3cr3t",
+    );
 
 =head1 DESCRIPTION
 

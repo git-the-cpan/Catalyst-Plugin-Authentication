@@ -1,9 +1,8 @@
 package Catalyst::Authentication::Credential::Password;
+use Moose;
+use namespace::autoclean;
 
-use strict;
-use warnings;
-
-use base qw/Class::Accessor::Fast/;
+with 'MooseX::Emulate::Class::Accessor::Fast';
 
 use Scalar::Util        ();
 use Catalyst::Exception ();
@@ -17,13 +16,13 @@ sub new {
     # Note _config is horrible back compat hackery!
     my $self = { _config => $config };
     bless $self, $class;
-    
+
     $self->realm($realm);
-    
+
     $self->_config->{'password_field'} ||= 'password';
     $self->_config->{'password_type'}  ||= 'clear';
     $self->_config->{'password_hash_type'} ||= 'SHA-1';
-    
+
     my $passwordtype = $self->_config->{'password_type'};
     if (!grep /$passwordtype/, ('none', 'clear', 'hashed', 'salted_hash', 'crypted', 'self_check')) {
         Catalyst::Exception->throw(__PACKAGE__ . " used with unsupported password type: " . $self->_config->{'password_type'});
@@ -34,12 +33,12 @@ sub new {
 sub authenticate {
     my ( $self, $c, $realm, $authinfo ) = @_;
 
-    ## because passwords may be in a hashed format, we have to make sure that we remove the 
-    ## password_field before we pass it to the user routine, as some auth modules use 
-    ## all data passed to them to find a matching user... 
+    ## because passwords may be in a hashed format, we have to make sure that we remove the
+    ## password_field before we pass it to the user routine, as some auth modules use
+    ## all data passed to them to find a matching user...
     my $userfindauthinfo = {%{$authinfo}};
     delete($userfindauthinfo->{$self->_config->{'password_field'}});
-    
+
     my $user_obj = $realm->find_user($userfindauthinfo, $c);
     if (ref($user_obj)) {
         if ($self->check_password($user_obj, $authinfo)) {
@@ -56,21 +55,21 @@ sub authenticate {
 
 sub check_password {
     my ( $self, $user, $authinfo ) = @_;
-    
+
     if ($self->_config->{'password_type'} eq 'self_check') {
         return $user->check_password($authinfo->{$self->_config->{'password_field'}});
     } else {
         my $password = $authinfo->{$self->_config->{'password_field'}};
         my $storedpassword = $user->get($self->_config->{'password_field'});
-        
+
         if ($self->_config->{'password_type'} eq 'none') {
             return 1;
         } elsif ($self->_config->{'password_type'} eq 'clear') {
-            # FIXME - Should we warn in the $storedpassword undef case, 
+            # FIXME - Should we warn in the $storedpassword undef case,
             #         as the user probably fluffed the config?
             return unless defined $storedpassword;
             return $password eq $storedpassword;
-        } elsif ($self->_config->{'password_type'} eq 'crypted') {            
+        } elsif ($self->_config->{'password_type'} eq 'crypted') {
             return $storedpassword eq crypt( $password, $storedpassword );
         } elsif ($self->_config->{'password_type'} eq 'salted_hash') {
             require Crypt::SaltedHash;
@@ -129,18 +128,18 @@ provided against the user retrieved from the store.
 =head1 CONFIGURATION
 
     # example
-    __PACKAGE__->config('Plugin::Authentication' => 
-                {  
+    __PACKAGE__->config('Plugin::Authentication' =>
+                {
                     default_realm => 'members',
                     realms => {
                         members => {
-                            
+
                             credential => {
                                 class => 'Password',
                                 password_field => 'password',
                                 password_type => 'hashed',
-                                password_hash_type => 'SHA-1'                                
-                            },    
+                                password_hash_type => 'SHA-1'
+                            },
                             ...
 
 
@@ -152,9 +151,9 @@ Those who have used L<Catalyst::Plugin::Authentication> prior to the 0.10 releas
 should note that the password field and type information is no longer part
 of the store configuration and is now part of the Password credential configuration.
 
-=over 4 
+=over 4
 
-=item class 
+=item class
 
 The classname used for Credential. This is part of
 L<Catalyst::Plugin::Authentication> and is the method by which
@@ -168,14 +167,14 @@ The field in the user object that contains the password. This will vary
 depending on the storage class used, but is most likely something like
 'password'. In fact, this is so common that if this is left out of the config,
 it defaults to 'password'. This field is obtained from the user object using
-the get() method. Essentially: $user->get('passwordfieldname'); 
-B<NOTE> If the password_field is something other than 'password', you must 
-be sure to use that same field name when calling $c->authenticate(). 
+the get() method. Essentially: $user->get('passwordfieldname');
+B<NOTE> If the password_field is something other than 'password', you must
+be sure to use that same field name when calling $c->authenticate().
 
-=item password_type 
+=item password_type
 
 This sets the password type.  Often passwords are stored in crypted or hashed
-formats.  In order for the password module to verify the plaintext password 
+formats.  In order for the password module to verify the plaintext password
 passed in, it must be told what format the password will be in when it is retreived
 from the user object. The supported options are:
 
@@ -184,7 +183,7 @@ from the user object. The supported options are:
 =item none
 
 No password check is done. An attempt is made to retrieve the user based on
-the information provided in the $c->authenticate() call. If a user is found, 
+the information provided in the $c->authenticate() call. If a user is found,
 authentication is considered to be successful.
 
 =item clear
@@ -194,11 +193,11 @@ The password in user is in clear text and will be compared directly.
 =item self_check
 
 This option indicates that the password should be passed to the check_password()
-routine on the user object returned from the store.  
+routine on the user object returned from the store.
 
 =item crypted
 
-The password in user is in UNIX crypt hashed format.  
+The password in user is in UNIX crypt hashed format.
 
 =item salted_hash
 
@@ -213,11 +212,11 @@ with L<Digest>. The following config elements affect the hashed configuration:
 
 =over 8
 
-=item password_hash_type 
+=item password_hash_type
 
-The hash type used, passed directly to L<Digest/new>.  
+The hash type used, passed directly to L<Digest/new>.
 
-=item password_pre_salt 
+=item password_pre_salt
 
 Any pre-salt data to be passed to L<Digest/add> before processing the password.
 
@@ -251,7 +250,7 @@ auth store to be used to retrieve the user. An example call follows:
 =head1 METHODS
 
 There are no publicly exported routines in the Password module (or indeed in
-most credential modules.)  However, below is a description of the routines 
+most credential modules.)  However, below is a description of the routines
 required by L<Catalyst::Plugin::Authentication> for all credential modules.
 
 =head2 new( $config, $app, $realm )

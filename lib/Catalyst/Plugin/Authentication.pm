@@ -11,7 +11,7 @@ with 'MooseX::Emulate::Class::Accessor::Fast';
 
 __PACKAGE__->mk_accessors(qw/_user/);
 
-our $VERSION = "0.10020";
+our $VERSION = "0.10021";
 
 sub set_authenticated {
     my ( $c, $user, $realmname ) = @_;
@@ -482,8 +482,7 @@ __END__
 
 =head1 NAME
 
-Catalyst::Plugin::Authentication - Infrastructure plugin for the Catalyst
-authentication framework.
+Catalyst::Plugin::Authentication - Infrastructure plugin for the Catalyst authentication framework.
 
 =head1 SYNOPSIS
 
@@ -864,8 +863,8 @@ default realm is checked.
 
 Returns the currently logged in user, or undef if there is none.
 Normally the user is re-retrieved from the store.
-For L<Catalyst::Authentication::Store::DBIx::Class> the user is re-restored 
-using the primary key of the user table. 
+For L<Catalyst::Authentication::Store::DBIx::Class> the user is re-restored
+using the primary key of the user table.
 Thus B<user> can throw an error even though B<user_exists>
 returned true.
 
@@ -1112,34 +1111,50 @@ Register stores into the application.
 
 =head2 $c->get_user( )
 
+=head1 SUPPORT
+
+Please use the rt.cpan.org bug tracker, and git patches are wecome.
+
+Questions on usage should be directed to the Catalyst mailing list
+or the #catalyst irc channel.
+
 =head1 AUTHORS
 
-Yuval Kogman, C<nothingmuch@woobling.org>
+Yuval Kogman, C<nothingmuch@woobling.org> - original author
 
-Jay Kuri, C<jayk@cpan.org>
+Jay Kuri, C<jayk@cpan.org> - Large rewrite
 
-Jess Robinson
-
-David Kamholz
+=head1 PRIMARY MAINTAINER
 
 Tomas Doran (t0m), C<bobtfish@bobtfish.net>
 
-kmx
+=head1 ADDITIONAL CONTRIBUTORS
 
-Nigel Metheringham
+=over
 
-Florian Ragwitz C<rafl@debian.org>
+=item Jess Robinson
 
-Stephan Jauernick C<stephanj@cpan.org>
+=item David Kamholz
 
-Oskari Ojala (Okko), C<perl@okko.net>
+=item kmx
 
-John Napiorkowski (jnap) C<jjnapiork@cpan.org>
+=item Nigel Metheringham
+
+=item Florian Ragwitz C<rafl@debian.org>
+
+=item Stephan Jauernick C<stephanj@cpan.org>
+
+=item Oskari Ojala (Okko), C<perl@okko.net>
+
+=item John Napiorkowski (jnap) C<jjnapiork@cpan.org>
+
+=back
 
 =head1 COPYRIGHT & LICENSE
 
 Copyright (c) 2005 - 2012
-the Catalyst::Plugin::Authentication L</AUTHORS>
+the Catalyst::Plugin::Authentication L</AUTHORS>,
+L</PRIMARY MAINTAINER> and L</ADDITIONAL CONTRIBUTORS>
 as listed above.
 
 This program is free software; you can redistribute

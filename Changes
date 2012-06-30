@@ -1,5 +1,19 @@
 Revision history for Perl extension Catalyst::Plugin::Authentication
 
+0.10021 30 June 2012
+    - Change all classes to Moose and MooseX::Emulate::Class::Accessor::Fast,
+      fixing undeclared dependency on Class::Accessor::Fast.
+    - Change Catalyst::Authentication::Realm to use String::RewritePrefix
+      rather than doing namespace mangling manually.
+    - Fix whitespace and tabs, add Test::EOL and Test::NoTabs
+    - Document optional methods in stores needed for auto_create_user
+      and auto_update_user in realms.
+    - Clarify support channels
+    - Note primary maintainer in docs.
+    - Add x_authority metadata.
+    - Get the NAME right by making it 1 line, due to crappy parsing
+      in EU::MM (RT#77028)
+
 0.10020 05 May 2012
      - Allow user_class to be configured for Catalyst::Authentication::Store::Minimal
        (Jochen Lutz <jlu@akk.org>)
