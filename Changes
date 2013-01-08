@@ -1,5 +1,8 @@
 Revision history for Perl extension Catalyst::Plugin::Authentication
 
+0.10022 08 Jan 2013
+    - Fix NoPasswd store (skaufman)
+
 0.10021 30 June 2012
     - Change all classes to Moose and MooseX::Emulate::Class::Accessor::Fast,
       fixing undeclared dependency on Class::Accessor::Fast.

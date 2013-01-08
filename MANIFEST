@@ -14,6 +14,7 @@ inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
+lib/Catalyst/Authentication/Credential/NoPassword.pm
 lib/Catalyst/Authentication/Credential/Password.pm
 lib/Catalyst/Authentication/Credential/Remote.pm
 lib/Catalyst/Authentication/Realm.pm
@@ -25,7 +26,6 @@ lib/Catalyst/Authentication/Store/Null.pm
 lib/Catalyst/Authentication/User.pm
 lib/Catalyst/Authentication/User/Hash.pm
 lib/Catalyst/Plugin/Authentication.pm
-lib/Catalyst/Plugin/Authentication/Credential/NoPassword.pm
 lib/Catalyst/Plugin/Authentication/Credential/Password.pm
 lib/Catalyst/Plugin/Authentication/Internals.pod
 lib/Catalyst/Plugin/Authentication/Store/Minimal.pm
@@ -65,3 +65,4 @@ t/live_app_realms_progressive.t
 t/live_app_remote1.t
 t/live_app_remote2.t
 t/live_app_session.t
+t/store_nopassord.t
