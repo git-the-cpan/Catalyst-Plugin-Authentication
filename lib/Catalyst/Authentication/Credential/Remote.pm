@@ -304,4 +304,61 @@ support $c->req->remote_user.
 This module tries some workarounds when it detects an older version and should
 work as well.
 
+=head1 USING WITH A REVERSE PROXY
+
+If you are using a reverse proxy, then the WEBUSER will not be
+directly accessible by the Catalyst server.  To use remote
+authentication, you will have to modify the web server to set a header
+containing the WEBUSER.  You would then need to modify the PSGI
+configuration to map the header back to the WEBUSER variable.
+
+For example, in Apache you would add the configuration
+
+  RequestHeader unset X-Forwarded-User
+  RewriteEngine On
+  RewriteCond %{LA-U:REMOTE_USER} (.+)
+  RewriteRule . - [E=RU:%1]
+  RequestHeader set X-Forwarded-User %{RU}e
+
+You then need to create a Plack::Middleware module to map the
+header back to the WEBUSER:
+
+  package Plack::Middleware::MyRemote;
+
+  use parent qw( Plack::Middleware );
+
+  use Plack::Util;
+
+  sub call {
+      my ($self, $env) = @_;
+
+      my $user = $env->{HTTP_X_FORWARDED_USER} // "";
+
+      $env->{REMOTE_USER} = $user
+        if ($user && ($user ne '(null)'));
+
+      my $res = $self->app->($env);
+
+      return $res;
+  }
+
+  1;
+
+Finally, you need to modify F<myapp.psgi> to use the custom middleware:
+
+  use strict;
+  use warnings;
+
+  use MyApp;
+
+  use Plack::Builder;
+
+  my $app = Drain->apply_default_middlewares(Drain->psgi_app);
+
+  builder {
+     enable "Plack::Middleware::MyRemote";
+     $app;
+  };
+
+
 =cut

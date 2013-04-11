@@ -1,5 +1,9 @@
 Revision history for Perl extension Catalyst::Plugin::Authentication
 
+0.10023 11 Jan 2013
+   - Add Howto on using the auth from the proxy server with
+     ::Credential::Remote (Robert Rothenberg)
+
 0.10022 08 Jan 2013
     - Fix NoPasswd store (skaufman)
 
